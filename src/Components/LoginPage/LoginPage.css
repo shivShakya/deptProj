@@ -1,0 +1,74 @@
+.loginPage{
+     background-color: #6e2323;
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     flex-direction: column;
+     height: 50em;
+}
+.roles{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-top: 10%;
+  
+}
+
+.role{
+    width: 10rem;
+    height: 3.9375rem;
+    flex-shrink: 0;
+    border-radius: 1.25rem;
+    background: #FFF;
+    margin: 1%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #000;
+    font-family: Roboto;
+    font-size: 1.5625rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.role:hover{
+    background-color: brown;
+    color: #D9D9D9;
+}
+
+.form-login{
+     display: flex;
+     justify-content: center;
+     flex-direction: column;
+     align-items: center;
+     margin-top: 2%;
+     margin-left: 0.5%;
+}
+
+.eml, .pass , .btn{
+    width: 21.125rem;
+    height: 2.8125rem;
+    flex-shrink: 0;
+    border-radius: 2.5rem;
+    background: #D9D9D9;
+    color: #000;
+    font-family: Roboto;
+    font-size: 1.5625rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    padding-left: 10%;
+    margin: 10%;
+
+}
+
+.btns{
+     margin-bottom: 50%;
+     padding-right: 10%;
+}
+.btn:hover{
+       background-color: brown;
+       color: #D9D9D9;
+}
+
