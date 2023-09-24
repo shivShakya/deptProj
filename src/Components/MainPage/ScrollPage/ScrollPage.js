@@ -37,22 +37,33 @@ function ScrollPage(){
              setScrollToDiv(null);
      },[scrollToDiv]);
 
+     function toogleNav(){
+      let nav = document.getElementById('navigation');
+
+      if (nav.style.display === 'none' || nav.style.display === '') {
+       nav.style.display = 'block';
+   } else {
+       nav.style.display = 'none';
+   }
+}
+
        return(
            <div className='scrl-page'>
                  <div id='front'></div>
                  <div className='back-ground'>
-
-
+                   
                       <div className='logIn-btn'>
-                 
-                         <img src='  https://upload.wikimedia.org/wikipedia/en/f/f6/Savitribai_Phule_Pune_University_Logo.png' width='100px' height='100px' alt='logo'/>
+                        
+                         <button className='Nav-bar-btn-mob' onClick={toogleNav}>NavBar</button>
+                         <img src='https://upload.wikimedia.org/wikipedia/en/f/f6/Savitribai_Phule_Pune_University_Logo.png' width='100px' height='100px' alt='logo'/>
                         <div className='head-name'> SavitriBai Phule Pune University</div>
-                        <button id='login' onClick={()=> nav('/login')}>Login/SignUp</button>
+                        <button id='login' onClick={()=>nav('/login')}>Login</button>
                      </div>
 
-                       <div className='back-img'><div className="Maths">Department Of Mathematics</div></div>
-                  <div className='tab-box'>
+                       <div className='back-img back-img-mob'><div className="Maths">Department Of Mathematics</div></div>
+                  <div className='tab-box' id='navigation'>
                       <div className='nav-tabs'>
+                           <button  className='tabs login-tb-mob' onClick={()=> nav('/login')}></button>
                            <div className='tabs ad' onClick={() => setScrollToDiv(document.getElementById('adm'))}></div>
                            <div className='tabs camp' onClick={() => setScrollToDiv(document.getElementById('camp'))}></div>
                            <div className='tabs eve' onClick={() => setScrollToDiv(document.getElementById('eve'))}></div>

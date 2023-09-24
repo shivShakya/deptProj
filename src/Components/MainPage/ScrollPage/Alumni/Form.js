@@ -34,7 +34,7 @@ function Form(){
                    </svg>
              </div>
                      <div className='info'>Please fill your Details here...</div>
-                     <button className='al-btn' onClick={()=> nav('/Alumni-page')}>Click here</button>
+                     <button className='al-btn' onClick={()=> nav('/Alumni')}>Click here</button>
               </div>
          </div>
    </div>

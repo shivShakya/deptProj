@@ -5,11 +5,10 @@ function Admission(){
       
       return( 
         <div className='admission'>
-  <div>
-    <svg xmlns="http://www.w3.org/2000/svg" width="1329" height="884" viewBox="0 0 1329 884" fill="none">
-      <path d="M0.445312 0.5L41.5 21H1328.44V851H41.5L0.445312 883.5V0.5Z" fill="#2A316D"/>
+  <div className='adm-details'>
+    <svg className='top' xmlns="http://www.w3.org/2000/svg" width="1329" height="884" viewBox="0 0 1329 884" fill="none">
+           <path d="M0.445312 0.5L41.5 21H1328.44V851H41.5L0.445312 883.5V0.5Z" fill="#2A316D"/>
       </svg>
-
 
       <div class="flex-container">
         <div class="container-1">
@@ -62,6 +61,16 @@ function Admission(){
         </div>
     </div>
   </div>
+
+   <div className='mob-adm'>
+        <svg className='tip' xmlns="http://www.w3.org/2000/svg" width="500" height="274" viewBox="0 0 300 174" fill="none">
+               <path d="M0.325562 0.998779L9.58435 4.99998H299.819V167H9.58435L0.325562 173.343V0.998779Z" fill="#2A316D"/>
+          </svg>
+
+          <div class="flex-container-1">
+                        <div> Admission Details</div>
+          </div>
+   </div>
   
         </div>
       )
