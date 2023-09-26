@@ -2,90 +2,141 @@ import React,{useEffect, useState} from 'react';
 import Photo from './Photo';
 import { useNavigate } from 'react-router-dom';
 import { useImageContext } from './MyContext';
+import './AlumniPage.css';
 
 function AlumniPage(){
+    const nav = useNavigate();
+    const { imageBlob } = useImageContext();
+    console.log({ 'image-blob': imageBlob });
+    
+    const initialState = {
+      "PRN": null,
+      "FirstName": "",
+      "MiddleName": "",
+      "LastName": "",
+      "Email": "",
+      "Phone": "",
+      "PassingYear": "",
+      "Course": "",
+      "Company": "",
+      "Position": "",
+      "linkdin": "",
+      "sector": "",
+      "password": "",
+      "confirmPassword": "",
+      "image": "",
+    };
+    
+    const [alumni, setAlumni] = useState(initialState);
+    
+    useEffect(() => {
+      handleYears();
+    }, []);
 
-       const nav = useNavigate();
-       const {imageBlob} = useImageContext();
+    function handleYears() {
+      const select = document.getElementById("Year");
+      for (let i = 0; i < 33; i++) {
+        const option = document.createElement("option");
+        option.value = 1990 + i;
+        option.innerHTML = 1990 + i;
+        select.appendChild(option);
+      }
+    }
+    
+    async function handleSubmit(e) {
+      e.preventDefault();
+      console.log("Form submitted", alumni);
+    
+      try {
+        const response = await fetch('http://localhost:5000/postAlumni', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ ...alumni, image : imageBlob}),
+        });
+    
+        const result = await response.json();
+    
+        if (!response.ok) {
+          console.log({ message: "Response is not okay" });
+          alert(result.error);
+        } else {
+          console.log({ result_m: result.error });
+          alert(result.error);
+           nav('/login');
+         
+        }
 
-       const [alumni , setAlumni] = useState({
-        "PRN": null,
-        "FirstName": "",
-        "MiddleName" : "",
-        "LastName" : "",
-        "Email" : "",
-        "Phone" : "",
-        "PassingYear" : "",
-        "Course" : "",
-        "Company" : "",
-        "Position": "",
-        "linkdin": "",
-        "sector" : "",
-        "password" : "",
-        "confirmPassword" : "",
-        "image" : imageBlob,
+        setAlumni(initialState);
+        clearForm();
+    
+      } catch (err) {
+        console.error({ error: err, message: "Some error occurred" });
+      }
+    }
+
+
+    function clearForm() {
+      document.getElementById("myForm").reset();
+  }
+
+
+  const [showOverlay, setShowOverlay] = useState(false);
+  const [genOTP , setGenOTP] = useState(null);
+  const [userOTP , setUserOTP] = useState(null);
+
+  const openOverlay = async() => {
+    console.log("Handle Email is called");
+    try{
+         const response = await fetch("http://localhost:5000/emailVarification",{
+              method : 'POST',
+              headers : {
+                 'Content-Type' : 'application/json'
+              },
+              body : JSON.stringify({ 'Email' :alumni.Email })
+         });
+
+         if(!response.ok){
+                console.log("response is not okay");
+         }
+         const result = await response.json();
+         console.log(result);
+         setGenOTP(result.generatedOTP);
+    }catch(err){
+          console.log(err);
+    }
+
+    setShowOverlay(true);
+  };
+
+  const closeOverlay = () => {
+    setShowOverlay(false);
+  };
+
+  const handleOTP = async() =>{
+        try{
+
+          const response = await fetch("http://localhost:5000/otpMatch",{
+            method : 'POST',
+            headers : {
+               'Content-Type' : 'application/json'
+            },
+            body : JSON.stringify({ 'userOTP' : userOTP , 'generatedOTP' : genOTP })
        });
 
-       useEffect(()=>{
-            handleYears();
-       })
-
-       function handleYears(){
-           const select = document.getElementById("Year");
-           for(let i = 0 ; i < 33 ; i++){
-                const option = document.createElement("option");
-                option.value = 1990+i;
-                option.innerHTML = 1990+i;
-                select.appendChild(option);
-           }
+       if(!response.ok){
+              console.log("response is not okay");
        }
-
-       async function handleSubmit(e) {
-        e.preventDefault();
-        console.log("Form submitted", alumni);
-      
-        try {
-          const response = await fetch('http://localhost:5000/postAlumni', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json', 
-            },
-            body: JSON.stringify(alumni), 
-          });
-      
-          if (!response.ok) {
-            console.log({ message: "Response is not okay" });
-          }
-
-          setAlumni({
-            "PRN": null,
-            "FirstName": "",
-            "MiddleName" : "",
-            "LastName" : "",
-            "Email" : "",
-            "Phone" : "",
-            "PassingYear" : "",
-            "Course" : "",
-            "Company" : "",
-            "Position": "",
-            "linkdin": "",
-            "sector" : "",
-            "password" : "",
-            "confirmPassword" : "",
-            "image": "",
-          })
-      
-          const result = await response.json();
-          console.log({ result: result });
-
-          nav('/AlumniDashBoard');
-      
-        } catch (err) {
-          console.error({ error: err, message: "Some error occurred" });
+       const result = await response.json();
+       console.log(result);
+       setShowOverlay(false);
+            
+            
+        }catch(err){
+             console.log(err);
         }
-      }
-      
-
+  }
 
 
 
@@ -93,9 +144,12 @@ function AlumniPage(){
            <div className='alumni-page'>
              
                 <div class="container">
+                <div style={{display:'flex' , justifyContent : 'center'}}>
                 <header>Alumni Registration</header>
+                <div style={{width : '30%'}}></div>
+                </div>
 
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit} >
 
                         <div class="details personal">
                             <div className='extra'>
@@ -121,9 +175,19 @@ function AlumniPage(){
                         </div>
 
                         <div class="input-field">
-                            <label>Email</label>
-                            <input type="email" placeholder="Enter your email" onChange={(e)=> setAlumni({...alumni ,Email: e.target.value})} required/>
+                          <label>Email</label><i className='fa fa-close' onClick={openOverlay}></i>
+                       <input type="email" placeholder="Enter your email" onChange={(e)=> setAlumni({...alumni ,Email: e.target.value})} required/>
                         </div>
+
+                        {showOverlay && (
+        <div id="overlay" className="overlay">
+          <div className="modal">
+            <span className="close-icon" onClick={closeOverlay}>×</span>
+                <input type='number' onChange={(e)=> setUserOTP(e.target.value)} /> <button onClick={handleOTP}>Submit</button> <button>Resend otp</button>
+            <p>This is your overlay content.</p>
+          </div>
+        </div>
+      )}
                         
 
                         <div class="input-field">
@@ -159,7 +223,7 @@ function AlumniPage(){
 
                         <div class="input-field">
                             <label>current Position</label>
-                            <input type="text" placeholder="Enter your Current Position" onChange={(e)=> setAlumni({...alumni ,Postion: e.target.value})} required/>
+                            <input type="text" placeholder="Enter your Current Position" onChange={(e)=> setAlumni({...alumni ,Position: e.target.value})} required/>
                         </div>
                       
                         <div class="input-field">

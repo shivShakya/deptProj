@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React,{useState, useEffect} from 'react';
 import './LoginPage.css';
 import { useNavigate } from 'react-router-dom';
 
@@ -8,9 +8,6 @@ function LoginPage(){
       const [role, setRole] = useState('');
       const [Email , setEmail] = useState('');
       const [password ,setPassword] = useState('');
-
-
-
       const [formStep, setFormStep] = useState(1);
 
      function handleRole() {
@@ -69,6 +66,50 @@ function LoginPage(){
           console.error('Error:', err);
       }
   }
+
+  async function handleEmail(){
+        console.log("Handle Email is called");
+         try{
+              const response = await fetch("http://localhost:5000/emailVarification",{
+                   method : 'POST',
+                   headers : {
+                      'Content-Type' : 'application/json'
+                   },
+                   body : JSON.stringify({ Email: "" })
+              });
+
+              if(!response.ok){
+                     console.log("response is not okay");
+              }
+              const result = await response.json();
+              console.log(result);
+              
+         }catch(err){
+               console.log(err);
+         }
+  }
+
+    const [isVarified , setIsVarified] = useState(false);
+     useEffect(()=>{
+           varificate();
+     },[]);
+
+     async function varificate(){
+             try{
+
+                const response = await fetch("http://localhost:5000/emailVarified");
+
+                if(!response.ok){
+                        console.log("response is not okay");
+                }
+
+                const result = await response.json();
+                console.log(result);    
+                setIsVarified(result.isVarified);      
+             }catch(err){
+                  console.log({Error : err});
+             }
+     }
   
 
       return(
@@ -79,14 +120,13 @@ function LoginPage(){
             <header>Login</header>
 
             <div className='form-repl'>
-
                     <div class="details personal">
-                     <div className='blocks'>
-                              
+                     <div className='blocks'>   
                               {
                                       formStep === 1 ? (
                                  
                                           <div class="input-field">
+    
                                           <div className='role-head'>Choose your role</div>
                                           <div name="Sectors" id="Sector" style={{ width: '13rem'}}>
                                             <div className='role-a alum'>

@@ -41,5 +41,7 @@
     overflow: hidden;
     margin-top: 0.5rem;
     border-radius: 4.875rem;
-    background: url("./Ellipse\ 1.svg"), lightgray 50% / cover no-repeat;
+    background: lightgray 50% / cover no-repeat;
+    overflow: hidden;
 }
+

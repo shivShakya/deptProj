@@ -12,20 +12,21 @@ function Alumni(){
         'FirstName' : '',
         'MiddleName' : '',
         'LastName' : '',
+        'image' : '',
         'role' : '',
      });
 
 
     useEffect(()=>{
             UserDataLog();
-    });
+    },[]);
 
     function UserDataLog(){
         const token = localStorage.getItem('token');
 
         if(token){
                const decodeToken = jwtDecode(token);
-               const { email, PRN, FirstName, MiddleName, LastName, role } = decodeToken;
+               const { email, PRN, FirstName, MiddleName, LastName, image , role } = decodeToken;
 
                setUserData({
                   'Email' : email,
@@ -33,6 +34,7 @@ function Alumni(){
                   'FirstName' : FirstName,
                   'MiddleName' : MiddleName,
                   'LastName' : LastName,
+                  'image' : image,
                   'role' : role
                });
         }
@@ -68,6 +70,7 @@ function Alumni(){
                                   }
 
                                        <div className='dash-img'>
+                                               <img src={userData.image} alt='your pic' width='100%' height='100%' />
                                        </div>
                                   </div>
                           </div>
